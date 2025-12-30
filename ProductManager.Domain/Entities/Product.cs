@@ -33,6 +33,11 @@
             IsDeleted = true;
         }
 
+        public void UpdatePrice(decimal price)
+        {
+            Price = price;
+        }
+
         public void Activate(bool activation)
         {
             IsActive = activation;

@@ -25,6 +25,7 @@ namespace ProductManager.Application.Features.Products.Commands.Update
         {
             var existedProduct = await _productRepository.GetById(request.Id, cancellationToken);
 
+            existedProduct.UpdatePrice(request.Price);
             existedProduct.UpdateName(request.Name);
             existedProduct.Activate(request.IsActive);
             existedProduct.SetQuantity(request.Quantity);
