@@ -59,11 +59,6 @@ namespace ProductManager.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductRequest createProduct, CancellationToken cancellationToken = default)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(createProduct);
-            }
-
             await _productApiService.CreateAsync(createProduct, cancellationToken);
 
             return RedirectToAction("Index");
@@ -130,19 +125,9 @@ namespace ProductManager.MVC.Controllers
                 return View(request);
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(request);
-            }
-
             await _productApiService.UpdateAsync(request, cancellationToken);
 
             return RedirectToAction("Index");
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
