@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductManager.Application.Abstractions.Mediator;
+using ProductManager.Application.Abstractions.Validation;
 using System.Reflection;
 
 namespace ProductManager.Application
@@ -23,6 +24,8 @@ namespace ProductManager.Application
             {
                 services.AddScoped(h.Interface, h.Implementation);
             }
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
     }
 }

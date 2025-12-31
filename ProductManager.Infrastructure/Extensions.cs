@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using ProductManager.Application.Abstractions.Mediator;
 using ProductManager.Application.Abstractions.Validation;
+using ProductManager.Application.Features.Products.Commands.Create;
+using ProductManager.Application.Features.Products.Commands.Update;
 using ProductManager.Domain.Interfaces;
 using ProductManager.Infrastructure.BackgroundServices;
 using ProductManager.Infrastructure.Implementations.Mediator;
@@ -27,15 +29,9 @@ namespace ProductManager.Infrastructure
 
             services.AddScoped<IMediator, Mediator>();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            var appAssembly = typeof(ProductManager.Application.Features.Products.Commands.Create.CreateProductCommand).Assembly;
-            var validatorRegistrations = appAssembly.GetTypes()
-                .Where(t => !t.IsAbstract && !t.IsInterface)
-                .SelectMany(t => t.GetInterfaces().Select(i => new { Impl = t, Interface = i }))
-                .Where(x => x.Interface.IsGenericType && x.Interface.GetGenericTypeDefinition() == typeof(IValidator<>))
-                .ToList();
-
+            services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
+            services.AddScoped<IValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
             var channel = Channel.CreateUnbounded<IntegrationEvent>(new UnboundedChannelOptions
