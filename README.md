@@ -63,6 +63,7 @@ Aplikacja przygotowana pod integracje z zewnętrznymi systemami (np. ERP: Dynami
 - Dodanie **Outbox Pattern** dla niezawodnej obsługi eventów integracyjnych
 - Bardziej restrykcyjna konfiguracja **CORS** (Origin / Headers / Methods)
 - Wykorzystanie trwałej kolejki wiadomości (np. Azure Service Bus)
+- Poprawienie działania walidacji po stronie UI
 
 ---
 
