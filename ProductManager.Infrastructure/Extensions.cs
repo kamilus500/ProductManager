@@ -30,8 +30,6 @@ namespace ProductManager.Infrastructure
             services.AddScoped<IMediator, Mediator>();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
 
-            services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
-            services.AddScoped<IValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
             var channel = Channel.CreateUnbounded<IntegrationEvent>(new UnboundedChannelOptions

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductManager.Application.Abstractions.Mediator;
 using ProductManager.Application.Abstractions.Validation;
+using ProductManager.Application.Features.Products.Commands.Create;
+using ProductManager.Application.Features.Products.Commands.Update;
+using ProductManager.Domain.Interfaces;
 using System.Reflection;
 
 namespace ProductManager.Application
@@ -26,6 +29,9 @@ namespace ProductManager.Application
             }
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
+            services.AddScoped<IValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
         }
     }
 }
