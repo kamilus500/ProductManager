@@ -3,5 +3,6 @@
   <Project Path="ProductManager.Application/ProductManager.Application.csproj" />
   <Project Path="ProductManager.Domain/ProductManager.Domain.csproj" />
   <Project Path="ProductManager.Infrastructure/ProductManager.Infrastructure.csproj" />
+  <Project Path="ProductManager.MVC/ProductManager.MVC.csproj" />
   <Project Path="ProductManager.UnitTests/ProductManager.UnitTests.csproj" />
 </Solution>

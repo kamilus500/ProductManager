@@ -4,6 +4,7 @@ using ProductManager.Application.Features.Products.Commands.Create;
 using ProductManager.Application.Features.Products.Commands.Delete;
 using ProductManager.Application.Features.Products.Commands.Update;
 using ProductManager.Application.Features.Products.Queries.GetAll;
+using ProductManager.Application.Features.Products.Queries.GetById;
 
 namespace ProductManager.API.Controllers
 {
@@ -48,6 +49,17 @@ namespace ProductManager.API.Controllers
                 cancellationToken);
 
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(string id, CancellationToken cancellationToken = default)
+        {
+            var product = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
+
+            if (product == null)
+                return NotFound($"Not found product with id : {id}");
+
+            return Ok(product);
         }
 
         [HttpPost]

@@ -28,7 +28,7 @@
             CreatedAt = DateTime.UtcNow;
         }
 
-        public void Delete()
+        public void MarkAsDelete()
         {
             IsDeleted = true;
         }

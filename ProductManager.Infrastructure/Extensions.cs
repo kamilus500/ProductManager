@@ -4,9 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using ProductManager.Application.Abstractions.Mediator;
 using ProductManager.Domain.Interfaces;
+using ProductManager.Infrastructure.BackgroundServices;
 using ProductManager.Infrastructure.Implementations.Mediator;
+using ProductManager.Infrastructure.Messaging;
 using ProductManager.Infrastructure.Persistance;
 using ProductManager.Infrastructure.Repositories;
+using System.Threading.Channels;
 
 namespace ProductManager.Infrastructure
 {
@@ -25,6 +28,15 @@ namespace ProductManager.Infrastructure
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            var channel = Channel.CreateUnbounded<IntegrationEvent>(new UnboundedChannelOptions
+            {
+                SingleReader = true,
+                SingleWriter = false
+            });
+            services.AddSingleton(channel);
+            services.AddSingleton<IEventBus, ChannelEventBus>();
+            services.AddHostedService<ChannelConsumerService>();
         }
 
         public static IServiceCollection AddSwaggerInfra(this IServiceCollection services)
@@ -38,6 +50,20 @@ namespace ProductManager.Infrastructure
                     Version = "v1",
                     Description = "API ProductManager"
                 });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCorsInfra(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowClient", policy =>
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                );
             });
 
             return services;

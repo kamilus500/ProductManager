@@ -7,6 +7,7 @@ var configuration = builder.Configuration;
 
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
+builder.Services.AddCorsInfra(configuration);
 
 builder.Services.AddSwaggerInfra();
 
@@ -23,6 +24,8 @@ app.UseSwaggerUI(c =>
 app.UseMiddleware<ErrorMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowClient");
 
 app.UseAuthorization();
 

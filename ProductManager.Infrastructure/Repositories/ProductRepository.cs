@@ -24,7 +24,8 @@ namespace ProductManager.Infrastructure.Repositories
 
             if (productToDelete != null)
             {
-                productToDelete.Delete();
+                productToDelete.MarkAsDelete();
+                productToDelete.Activate(false);
                 _dbContext.Products.Update(productToDelete);
             }
         }

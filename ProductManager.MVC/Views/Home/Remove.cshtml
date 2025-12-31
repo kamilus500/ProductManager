@@ -1,0 +1,23 @@
+﻿@model ProductManager.MVC.Models.ProductDto
+
+@{
+    ViewData["Title"] = "Remove product";
+}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Model.Description</p>
+        <p class="mb-1"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+        <p class="mb-1"><strong>Quantity:</strong> @Model.StockQuantity</p>
+        <p class="mb-1"><strong>Active:</strong> @(Model.IsActive ? "YES" : "NO")</p>
+        <p class="text-muted"><small>Created at: @Model.CreatedAt.ToLocalTime().ToString("g")</small></p>
+    </div>
+</div>
+
+<form asp-action="Remove" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-danger">Remove</button>
+    </div>
+</form>
