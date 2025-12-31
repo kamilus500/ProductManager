@@ -81,12 +81,6 @@ namespace ProductManager.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(DeleteProductRequest request, CancellationToken cancellationToken = default)
         {
-            if (request == null || string.IsNullOrWhiteSpace(request.Id))
-            {
-                ModelState.AddModelError(string.Empty, "Nieprawid³owy identyfikator produktu.");
-                return RedirectToAction("Index");
-            }
-
             await _productApiService.DeleteAsync(request, cancellationToken);
 
             return RedirectToAction("Index");
