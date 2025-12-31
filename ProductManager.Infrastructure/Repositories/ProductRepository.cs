@@ -54,8 +54,6 @@ namespace ProductManager.Infrastructure.Repositories
                                     .AsNoTracking()
                                     .AsQueryable();
 
-            var totalCount = query.Count();
-
             if (!string.IsNullOrWhiteSpace(filterName))
             {
                 var fn = filterName.Trim();
@@ -120,6 +118,8 @@ namespace ProductManager.Infrastructure.Repositories
                     column = "Name";
                     break;
             }
+
+            var totalCount = query.Count();
 
             return (await query
                         .Skip((pageNumber - 1) * pageSize)
