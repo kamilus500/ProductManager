@@ -38,6 +38,7 @@ namespace ProductManager.Application.Features.Products.Queries.GetAll
                                 request.MinQuantity,
                                 request.MaxQuantity,
                                 request.IsActive,
+                                request.IsDeleted,
                                 request.MinPrice,
                                 request.MaxPrice,
                                 cancellationToken);

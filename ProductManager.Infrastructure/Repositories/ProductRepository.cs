@@ -40,6 +40,7 @@ namespace ProductManager.Infrastructure.Repositories
             decimal? filterMinQuantity = null,
             decimal? filterMaxQuantity = null,
             bool? filterActive = null,
+            bool? filterIsDeleted = null,
             decimal? minPrice = null,
             decimal? maxPrice = null, 
             CancellationToken cancellationToken = default)
@@ -82,18 +83,25 @@ namespace ProductManager.Infrastructure.Repositories
             if (filterActive.HasValue)
                 query = query.Where(p => p.IsActive == filterActive.Value);
 
+            if (filterIsDeleted.HasValue)
+                query = query.Where(p => p.IsDeleted == filterIsDeleted.Value);
+
             var column = sortColumn.Trim().ToLowerInvariant();
             var desc = sortDirection == "desc";
 
             switch (column)
             {
+                case "description":
+                    query = desc ? query.OrderByDescending(p => p.Description) : query.OrderBy(p => p.Description);
+                    column = "description";
+                    break;
                 case "price":
                     query = desc ? query.OrderByDescending(p => p.Price) : query.OrderBy(p => p.Price);
                     column = "Price";
                     break;
                 case "quantity":
                     query = desc ? query.OrderByDescending(p => p.StockQuantity) : query.OrderBy(p => p.StockQuantity);
-                    column = "Description";
+                    column = "quantity";
                     break;
                 case "isactive":
                     query = desc ? query.OrderByDescending(p => p.IsActive) : query.OrderBy(p => p.IsActive);
@@ -102,6 +110,10 @@ namespace ProductManager.Infrastructure.Repositories
                 case "isdeleted":
                     query = desc ? query.OrderByDescending(p => p.IsDeleted) : query.OrderBy(p => p.IsDeleted);
                     column = "isDeleted";
+                    break;
+                case "createdat":
+                    query = desc ? query.OrderByDescending(p => p.CreatedAt) : query.OrderBy(p => p.CreatedAt);
+                    column = "createdat";
                     break;
                 default:
                     query = desc ? query.OrderByDescending(p => p.Name) : query.OrderBy(p => p.Name);

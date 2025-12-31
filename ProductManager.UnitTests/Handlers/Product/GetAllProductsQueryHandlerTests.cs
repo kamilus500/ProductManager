@@ -1,6 +1,5 @@
 ﻿using Moq;
 using ProductManager.Application.Features.Products.Queries.GetAll;
-using ProductManager.Domain.Entities;
 using ProductManager.Domain.Interfaces;
 
 namespace ProductManager.UnitTests.Handlers.Product
@@ -28,6 +27,7 @@ namespace ProductManager.UnitTests.Handlers.Product
                    It.IsAny<string?>(),
                    It.IsAny<decimal?>(),
                    It.IsAny<decimal?>(),
+                   It.IsAny<bool?>(),
                    It.IsAny<bool?>(),
                    It.IsAny<decimal?>(),
                    It.IsAny<decimal?>(),

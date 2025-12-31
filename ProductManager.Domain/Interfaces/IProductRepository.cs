@@ -14,6 +14,7 @@ namespace ProductManager.Domain.Interfaces
             decimal? filterMinQuantity = null,
             decimal? filterMaxQuantity = null,
             bool? filterActive = null,
+            bool? filterIsDeleted = null,
             decimal? minPrice = null,
             decimal? maxPrice = null,
             CancellationToken cancellationToken = default!);
