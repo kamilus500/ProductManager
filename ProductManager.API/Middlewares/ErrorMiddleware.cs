@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductManager.Application.Abstractions.Validation;
 using System.Text.Json;
 
 namespace ProductManager.API.Middlewares
@@ -36,17 +37,42 @@ namespace ProductManager.API.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var statusCode = StatusCodes.Status500InternalServerError;
-            var title = "Internal Server Error";
+            int statusCode;
+            string title;
+            ProblemDetails problem;
 
-            var problem = new ProblemDetails
+            if (exception is ValidationException vex)
             {
-                Type = $"https://httpstatuses.com/{statusCode}",
-                Title = title,
-                Detail = _env.IsDevelopment() ? exception.Message : "An unexpected error occurred.",
-                Status = statusCode,
-                Instance = context.Request.Path
-            };
+                statusCode = StatusCodes.Status400BadRequest;
+                title = "Validation Failed";
+                problem = new ProblemDetails
+                {
+                    Type = $"https://httpstatuses.com/{statusCode}",
+                    Title = title,
+                    Detail = _env.IsDevelopment() ? exception.Message : "One or more validation errors occurred.",
+                    Status = statusCode,
+                    Instance = context.Request.Path
+                };
+
+                foreach (var kv in vex.Errors)
+                {
+                    problem.Extensions[kv.Key] = kv.Value;
+                }
+            }
+            else
+            {
+                statusCode = StatusCodes.Status500InternalServerError;
+                title = "Internal Server Error";
+
+                problem = new ProblemDetails
+                {
+                    Type = $"https://httpstatuses.com/{statusCode}",
+                    Title = title,
+                    Detail = _env.IsDevelopment() ? exception.Message : "An unexpected error occurred.",
+                    Status = statusCode,
+                    Instance = context.Request.Path
+                };
+            }
 
             var options = new JsonSerializerOptions
             {
@@ -56,7 +82,7 @@ namespace ProductManager.API.Middlewares
             var result = JsonSerializer.Serialize(problem, options);
 
             context.Response.ContentType = "application/problem+json";
-            context.Response.StatusCode = statusCode;
+            context.Response.StatusCode = problem.Status ?? statusCode;
 
             return context.Response.WriteAsync(result);
         }

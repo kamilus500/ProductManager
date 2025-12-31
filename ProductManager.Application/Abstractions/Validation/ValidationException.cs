@@ -1,0 +1,13 @@
+﻿namespace ProductManager.Application.Abstractions.Validation
+{
+    public class ValidationException : Exception
+    {
+        public IDictionary<string, string[]> Errors { get; }
+
+        public ValidationException(IDictionary<string, string[]> errors)
+            : base("One or more validation failures have occurred.")
+        {
+            Errors = errors ?? throw new ArgumentNullException(nameof(errors));
+        }
+    }
+}
