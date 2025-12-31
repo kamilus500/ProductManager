@@ -95,9 +95,6 @@ namespace ProductManager.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                return BadRequest();
-
             var product = await _productApiService.GetByIdAsync(id, cancellationToken);
             if (product == null)
                 return NotFound();
@@ -119,12 +116,6 @@ namespace ProductManager.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateProductRequest request, CancellationToken cancellationToken = default)
         {
-            if (request == null || string.IsNullOrWhiteSpace(request.Id))
-            {
-                ModelState.AddModelError(string.Empty, "Nieprawid³owy identyfikator produktu.");
-                return View(request);
-            }
-
             await _productApiService.UpdateAsync(request, cancellationToken);
 
             return RedirectToAction("Index");
