@@ -118,7 +118,19 @@ else
                             }
                         </a>
                     </th>
-                    <th>Deleted</th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-pageNumber="1"
+                           asp-route-pageSize="@pageSize"
+                           asp-route-sortColumn="IsDeleted"
+                           asp-route-sortDirection="@(sortColumn == "IsDeleted" && sortDirection == "asc" ? "desc" : "asc")">
+                            Deleted
+                            @if (sortColumn == "IsDeleted")
+                            {
+                                <span> (@(sortDirection == "asc" ? "▲" : "▼"))</span>
+                            }
+                        </a>
+                    </th>
                     <th></th>
                 </tr>
             </thead>

@@ -16,7 +16,7 @@ namespace ProductManager.MVC.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<PageResult<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10, string? sortColumn = "Name", string? sortDirection = "asc", string? name = null, string? description = null, bool? isActive = null, decimal? minQuantity = null, decimal? maxQuantity = null, decimal? minPrice = null, decimal? maxPrice = null, CancellationToken cancellationToken = default)
+        public async Task<PageResult<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10, string? sortColumn = "Name", string? sortDirection = "asc", string? name = null, string? description = null, bool? isActive = null, bool? isDeleted = null, decimal? minQuantity = null, decimal? maxQuantity = null, decimal? minPrice = null, decimal? maxPrice = null, CancellationToken cancellationToken = default)
         {
             var query = new List<string>
             {
@@ -29,6 +29,7 @@ namespace ProductManager.MVC.Services
             if (!string.IsNullOrEmpty(name)) query.Add($"name={Uri.EscapeDataString(name)}");
             if (!string.IsNullOrEmpty(description)) query.Add($"description={Uri.EscapeDataString(description)}");
             if (isActive.HasValue) query.Add($"isActive={isActive.Value.ToString().ToLowerInvariant()}");
+            if (isDeleted.HasValue) query.Add($"isDeleted={isDeleted.Value.ToString().ToLowerInvariant()}");
             if (minQuantity.HasValue) query.Add($"minQuantity={minQuantity.Value}");
             if (maxQuantity.HasValue) query.Add($"maxQuantity={maxQuantity.Value}");
             if (minPrice.HasValue) query.Add($"minPrice={minPrice.Value}");

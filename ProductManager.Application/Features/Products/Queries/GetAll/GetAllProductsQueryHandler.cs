@@ -12,6 +12,7 @@ namespace ProductManager.Application.Features.Products.Queries.GetAll
         string? Name = null,
         string? Description = null,
         bool? IsActive = null,
+        bool? IsDeleted = null,
         decimal? MinQuantity = null,
         decimal? MaxQuantity = null,
         decimal? MinPrice = null,

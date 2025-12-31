@@ -12,6 +12,7 @@ namespace ProductManager.MVC.Services
             string? name = null,
             string? description = null,
             bool? isActive = null,
+            bool? isDeleted = null,
             decimal? minQuantity = null,
             decimal? maxQuantity = null,
             decimal? minPrice = null,

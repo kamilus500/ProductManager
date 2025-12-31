@@ -95,9 +95,13 @@ namespace ProductManager.Infrastructure.Repositories
                     query = desc ? query.OrderByDescending(p => p.StockQuantity) : query.OrderBy(p => p.StockQuantity);
                     column = "Description";
                     break;
-                case "isActive":
+                case "isactive":
                     query = desc ? query.OrderByDescending(p => p.IsActive) : query.OrderBy(p => p.IsActive);
                     column = "isActive";
+                    break;
+                case "isdeleted":
+                    query = desc ? query.OrderByDescending(p => p.IsDeleted) : query.OrderBy(p => p.IsDeleted);
+                    column = "isDeleted";
                     break;
                 default:
                     query = desc ? query.OrderByDescending(p => p.Name) : query.OrderBy(p => p.Name);
